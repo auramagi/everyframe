@@ -24,31 +24,63 @@ struct DetailView: View {
     
     var body: some View {
         VStack {
-            VStack {
-                QuickLookPreview(file: file)
-                    .padding(.top)
-                    .padding()
-            }.background(Color.black)
             Form {
                 Section {
-                    VStack {
-                        Text(file.path)
+                    HStack {
+                        icon
                         
-                        format
-                        
-                        HStack {
-                            duration
+                        VStack(alignment: .leading) {
+                            Text(file.lastPathComponent)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                                .font(.headline)
+
+//                            format
                             
-                            Divider()
-                                .frame(height: 8)
-                            
-                            size
+                            format2
+                                .lineLimit(1)
+                                .truncationMode(.middle)
                         }
-                    }.padding()
+                    }
                 }
-            }
+                
+                Divider()
+                    .padding(.horizontal, -16)
+                
+                Section(
+                    header: Text("Information")
+                        .font(.subheadline)
+                ) {
+                    HStack {
+                        Text("Duration")
+                            .font(.caption)
+                            .foregroundColor(Color(NSColor.secondaryLabelColor))
+                        
+                        Spacer()
+                        
+                        duration
+                    }
+                    
+                    HStack {
+                        Text("Size")
+                            .font(.caption)
+                            .foregroundColor(Color(NSColor.secondaryLabelColor))
+                        
+                        Spacer()
+                        
+                        size
+                    }
+                }
+                .padding(.bottom, 6)
+            }.padding(16)
             
         }
+    }
+    
+    var icon: Image {
+        let icon = NSWorkspace.shared.icon(forFile: file.path)
+        
+        return Image(nsImage: icon)
     }
     
     private enum Formatters {
@@ -79,6 +111,13 @@ struct DetailView: View {
         return Text(format)
     }
     
+    var format2: Text? {
+        guard let uti = try? NSWorkspace.shared.type(ofFile: file.path),
+            let format = UTTypeCopyDescription(uti as CFString)
+            else { return nil }
+        return Text(format.takeRetainedValue() as String)
+    }
+    
     var duration: Text? {
         guard let duration = probeOutput?.format.duration,
             let interval = TimeInterval(duration)
@@ -96,42 +135,6 @@ struct DetailView: View {
         return Text(text)
     }
     
-}
-
-
-struct VideoPlayer: NSViewRepresentable {
-    let item: AVPlayerItem
-    
-    init(file: URL) {
-        self.item = AVPlayerItem(url: file)
-    }
-    
-    func makeNSView(context: Context) -> AVPlayerView {
-        let nsView = AVPlayerView()
-        nsView.player = AVPlayer()
-        return nsView
-    }
-    
-    func updateNSView(_ nsView: AVPlayerView, context: Context) {
-        if nsView.player?.currentItem != item {
-            nsView.player?.replaceCurrentItem(with: item)
-            nsView.player?.play()
-        }
-    }
-}
-
-
-struct QuickLookPreview: NSViewRepresentable {
-    let file: URL
-    
-    func makeNSView(context: Context) -> QLPreviewView {
-        let nsView = QLPreviewView(frame: .zero, style: .normal)!
-        return nsView
-    }
-    
-    func updateNSView(_ nsView: QLPreviewView, context: Context) {
-        nsView.previewItem = file as NSURL
-    }
 }
 
 struct DetailView_Previews: PreviewProvider {
