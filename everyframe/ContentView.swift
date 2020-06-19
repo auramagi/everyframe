@@ -12,9 +12,10 @@ struct ContentView: View, DropDelegate {
     
     let window: NSWindow
     
-    @State var operation: FFmpegOperation?
+    @State var operation: FFmpegOperation? = .init(input: PreviewData.input)
     @State var dropState: DropState = .uninitiated
     @State var showingProbeOutput: Bool = false
+    @State var optionsOverride: String = ""
     
     enum DropState {
         case uninitiated
@@ -24,7 +25,7 @@ struct ContentView: View, DropDelegate {
     
     var body : some View {
         fileView
-            .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 240, idealHeight: 480, maxHeight: .infinity, alignment: .center)
+            .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
             .onDrop(of: [(kUTTypeFileURL as String)], delegate: self)
     }
     
@@ -58,7 +59,20 @@ struct ContentView: View, DropDelegate {
                         
                         Divider()
                         
-                        Spacer().frame(minWidth: 200)
+                        Section {
+                            Spacer()
+                            
+                            TextField(
+                                operation.options,
+                                text: $optionsOverride,
+                                onEditingChanged: { _ in },
+                                onCommit: { }
+                            )
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal)
                         
                         Section {
                             Button(action: changeOutput) {
@@ -78,6 +92,24 @@ struct ContentView: View, DropDelegate {
                             .buttonStyle(PlainButtonStyle())
                         }
                         .padding(.horizontal)
+                        
+                        Section {
+                            HStack {
+                                Button(
+                                    action: { },
+                                    label: { Text("Options…") }
+                                )
+                                
+                                Spacer()
+                                
+                                Button(
+                                    action: run,
+                                    label: { Text("Run") }
+                                )
+                            }
+                            .padding(.top, 8)
+                            .padding(.horizontal)
+                        }
                     }
                     .padding(.vertical)
                 )
@@ -170,6 +202,10 @@ struct ContentView: View, DropDelegate {
         } else {
             NSWorkspace.shared.selectFile(operation.output.deletingLastPathComponent().path, inFileViewerRootedAtPath: "")
         }
+    }
+    
+    func run() {
+        
     }
 
 }

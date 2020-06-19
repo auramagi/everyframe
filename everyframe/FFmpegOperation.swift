@@ -12,6 +12,9 @@ struct FFmpegOperation {
     let input: URL
     var output: URL
     
+    private(set) var options: String = ""
+    var optionsOverride: String?
+    
     init(input: URL) {
         self.input = input
         self.output = FFmpegOperation.outputURL(forInput: input, pathExtension: input.pathExtension)
