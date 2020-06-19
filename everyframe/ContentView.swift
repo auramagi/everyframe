@@ -13,6 +13,7 @@ struct ContentView: View, DropDelegate {
     let window: NSWindow
     
     @State var openedFile: URL?
+    @State var outputFile: URL?
     @State var dropState: DropState = .uninitiated
     @State var showingProbeOutput: Bool = false
     
@@ -59,6 +60,8 @@ struct ContentView: View, DropDelegate {
                         Divider()
                         
                         Spacer().frame(minWidth: 200)
+                        
+                        Text(outputFile?.path ?? "nil")
                     }
                     .padding(.vertical)
                 )
@@ -127,12 +130,24 @@ struct ContentView: View, DropDelegate {
         
         
         panel.beginSheetModal(for: window) { response in
-            guard response == .OK else { return }
+            guard response == .OK, let url = panel.url else { return }
             
-            self.openedFile = panel.url
+            self.openedFile = url
+            self.outputFile = self.outputURL(forInput: url, pathExtension: url.pathExtension)
         }
     }
     
+    func outputURL(forInput url: URL, pathExtension: String) -> URL {
+        var output = url
+        output.deletePathExtension()
+        let name = "\(output.lastPathComponent)_output"
+        output.deleteLastPathComponent()
+        output.appendPathComponent(name)
+        output.appendPathExtension(pathExtension)
+        output.icrementIfExists()
+        return output
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
