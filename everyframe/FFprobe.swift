@@ -1,5 +1,5 @@
 //
-//  FFProbe.swift
+//  FFprobe.swift
 //  everyframe
 //
 //  Created by Mikhail Apurin on 2020/06/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct FFProbe {
+struct FFprobe {
     let file: URL
     
     private let path: String = "/usr/local/bin/ffprobe"
@@ -49,7 +49,7 @@ struct FFProbe {
      */
 }
 /*
-extension FFProbe.Output {
+extension FFprobe.Output {
     private enum Formatters {
         private static let duration: DateComponentsFormatter = {
             let formatter = DateComponentsFormatter()

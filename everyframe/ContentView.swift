@@ -12,8 +12,7 @@ struct ContentView: View, DropDelegate {
     
     let window: NSWindow
     
-    @State var openedFile: URL?
-    @State var outputFile: URL?
+    @State var operation: FFmpegOperation?
     @State var dropState: DropState = .uninitiated
     @State var showingProbeOutput: Bool = false
     
@@ -32,13 +31,13 @@ struct ContentView: View, DropDelegate {
     var fileView: some View {
         switch dropState {
         case .uninitiated:
-            if let openedFile = openedFile {
+            if let operation = operation {
                 return AnyView(
                     Form {
                         Section() {
                             Button(action: openFile) {
                                 HStack {
-                                    FileView(file: openedFile)
+                                    FileView(file: operation.input)
                                     
                                     Spacer()
                                     
@@ -61,7 +60,7 @@ struct ContentView: View, DropDelegate {
                         
                         Spacer().frame(minWidth: 200)
                         
-                        Text(outputFile?.path ?? "nil")
+                        FileView(file: operation.output)
                     }
                     .padding(.vertical)
                 )
@@ -86,8 +85,8 @@ struct ContentView: View, DropDelegate {
     }
     
     var probeOutput: ProbeOutputView? {
-        guard let file = openedFile else { return nil }
-        return ProbeOutputView(file: file, probeOutput: FFProbe(file: file).run())
+        guard let file = operation?.input else { return nil }
+        return ProbeOutputView(file: file, probeOutput: FFprobe(file: file).run())
     }
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
@@ -114,7 +113,7 @@ struct ContentView: View, DropDelegate {
         itemProvider.loadItem(forTypeIdentifier: (kUTTypeFileURL as String), options: nil) {item, error in
             guard let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
             DispatchQueue.main.async {
-                self.openedFile = url
+                self.operation = FFmpegOperation(input: url)
             }
         }
         
@@ -128,24 +127,10 @@ struct ContentView: View, DropDelegate {
         panel.canChooseDirectories = false
         panel.title = "Choose input file"
         
-        
         panel.beginSheetModal(for: window) { response in
             guard response == .OK, let url = panel.url else { return }
-            
-            self.openedFile = url
-            self.outputFile = self.outputURL(forInput: url, pathExtension: url.pathExtension)
+            self.operation = FFmpegOperation(input: url)
         }
-    }
-    
-    func outputURL(forInput url: URL, pathExtension: String) -> URL {
-        var output = url
-        output.deletePathExtension()
-        let name = "\(output.lastPathComponent)_output"
-        output.deleteLastPathComponent()
-        output.appendPathComponent(name)
-        output.appendPathExtension(pathExtension)
-        output.icrementIfExists()
-        return output
     }
 
 }
@@ -155,7 +140,7 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView(window: .init())
             
-            ContentView(window: .init(), openedFile: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov"))
+            ContentView(window: .init(), operation: FFmpegOperation(input: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov")))
         }
     }
 }

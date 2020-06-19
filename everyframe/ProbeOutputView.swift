@@ -11,7 +11,7 @@ import SwiftUI
 struct ProbeOutputView: View {
     
     var file: URL
-    var probeOutput: FFProbe.Output?
+    var probeOutput: FFprobe.Output?
     
     var body: some View {
         VStack(spacing: 0) {
