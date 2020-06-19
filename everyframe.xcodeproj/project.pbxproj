@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD0249C48940013BC22 /* ProbeOutputView.swift */; };
 		61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF42D249B0F73008A47FA /* AppDelegate.swift */; };
 		61EDF430249B0F73008A47FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF42F249B0F73008A47FA /* ContentView.swift */; };
 		61EDF432249B0F75008A47FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61EDF431249B0F75008A47FA /* Assets.xcassets */; };
 		61EDF435249B0F75008A47FA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61EDF434249B0F75008A47FA /* Preview Assets.xcassets */; };
 		61EDF438249B0F75008A47FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61EDF436249B0F75008A47FA /* Main.storyboard */; };
 		61EDF441249B1810008A47FA /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF440249B1810008A47FA /* Shell.swift */; };
-		61EDF443249B397B008A47FA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF442249B397B008A47FA /* DetailView.swift */; };
+		61EDF443249B397B008A47FA /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF442249B397B008A47FA /* FileView.swift */; };
 		61EDF445249B39F0008A47FA /* FFProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF444249B39F0008A47FA /* FFProbe.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		619D5AD0249C48940013BC22 /* ProbeOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOutputView.swift; sourceTree = "<group>"; };
 		61EDF42A249B0F73008A47FA /* everyframe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = everyframe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61EDF42D249B0F73008A47FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61EDF42F249B0F73008A47FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,7 +29,7 @@
 		61EDF439249B0F75008A47FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		61EDF43A249B0F75008A47FA /* everyframe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = everyframe.entitlements; sourceTree = "<group>"; };
 		61EDF440249B1810008A47FA /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
-		61EDF442249B397B008A47FA /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		61EDF442249B397B008A47FA /* FileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
 		61EDF444249B39F0008A47FA /* FFProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFProbe.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +65,8 @@
 			children = (
 				61EDF42D249B0F73008A47FA /* AppDelegate.swift */,
 				61EDF42F249B0F73008A47FA /* ContentView.swift */,
-				61EDF442249B397B008A47FA /* DetailView.swift */,
+				61EDF442249B397B008A47FA /* FileView.swift */,
+				619D5AD0249C48940013BC22 /* ProbeOutputView.swift */,
 				61EDF444249B39F0008A47FA /* FFProbe.swift */,
 				61EDF440249B1810008A47FA /* Shell.swift */,
 				61EDF431249B0F75008A47FA /* Assets.xcassets */,
@@ -156,8 +159,9 @@
 			files = (
 				61EDF445249B39F0008A47FA /* FFProbe.swift in Sources */,
 				61EDF441249B1810008A47FA /* Shell.swift in Sources */,
-				61EDF443249B397B008A47FA /* DetailView.swift in Sources */,
+				61EDF443249B397B008A47FA /* FileView.swift in Sources */,
 				61EDF430249B0F73008A47FA /* ContentView.swift in Sources */,
+				619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */,
 				61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

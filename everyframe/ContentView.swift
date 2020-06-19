@@ -10,8 +10,11 @@ import SwiftUI
 
 struct ContentView: View, DropDelegate {
     
+    let window: NSWindow
+    
     @State var openedFile: URL?
     @State var dropState: DropState = .uninitiated
+    @State var showingProbeOutput: Bool = false
     
     enum DropState {
         case uninitiated
@@ -30,20 +33,42 @@ struct ContentView: View, DropDelegate {
         case .uninitiated:
             if let openedFile = openedFile {
                 return AnyView(
-                    VStack(spacing: 0) {
-                        DetailView(file: openedFile)
+                    Form {
+                        Section() {
+                            Button(action: openFile) {
+                                HStack {
+                                    FileView(file: openedFile)
+                                    
+                                    Spacer()
+                                    
+                                    Button(
+                                        action: { self.showingProbeOutput = true },
+                                        label: { Text("􀅴").font(.system(size: 18)) }
+                                    )
+                                        .buttonStyle(LinkButtonStyle())
+                                        .popover(
+                                            isPresented:  $showingProbeOutput,
+                                            content: { self.probeOutput }
+                                    )
+                                    
+                                }
+                            }
+                        .buttonStyle(PlainButtonStyle())
+                        }
+                        .padding(.horizontal)
                         
                         Divider()
                         
                         Spacer().frame(minWidth: 200)
                     }
+                    .padding(.vertical)
                 )
             } else {
                 return AnyView(
                     VStack {
                         Button(
-                            action: { },
-                            label: { Text("Select input file") }
+                            action: { DispatchQueue.main.async(execute: self.openFile) },
+                            label: { Text("Choose input") }
                         )
                     }
                 )
@@ -56,6 +81,11 @@ struct ContentView: View, DropDelegate {
             return AnyView(Text("Don't drop here"))
             
         }
+    }
+    
+    var probeOutput: ProbeOutputView? {
+        guard let file = openedFile else { return nil }
+        return ProbeOutputView(file: file, probeOutput: FFProbe(file: file).run())
     }
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
@@ -89,10 +119,29 @@ struct ContentView: View, DropDelegate {
         return true
     }
     
+    func openFile() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.title = "Choose input file"
+        
+        
+        panel.beginSheetModal(for: window) { response in
+            if response == .OK { self.openedFile = panel.url }
+            panel.close()
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView(window: .init())
+            
+            ContentView(window: .init(), openedFile: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov"))
+            
+        }
     }
 }
