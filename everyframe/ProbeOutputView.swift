@@ -59,6 +59,6 @@ struct ProbeOutputView: View {
 
 struct ProbeOutputView_Previews: PreviewProvider {
     static var previews: some View {
-        ProbeOutputView(file: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov"))
+        ProbeOutputView(file: PreviewData.input)
     }
 }

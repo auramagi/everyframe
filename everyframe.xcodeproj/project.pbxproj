@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD0249C48940013BC22 /* ProbeOutputView.swift */; };
-		619D5AD3249C70A60013BC22 /* URL+Incrementing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD2249C70A60013BC22 /* URL+Incrementing.swift */; };
+		619D5AD3249C70A60013BC22 /* URL+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD2249C70A60013BC22 /* URL+Paths.swift */; };
 		619D5AD5249C72140013BC22 /* FFmpegOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD4249C72140013BC22 /* FFmpegOperation.swift */; };
+		619D5AD7249C8C3A0013BC22 /* test.mov in Resources */ = {isa = PBXBuildFile; fileRef = 619D5AD6249C8C3A0013BC22 /* test.mov */; };
+		619D5AD9249C8D4C0013BC22 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD8249C8D4C0013BC22 /* PreviewData.swift */; };
 		61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF42D249B0F73008A47FA /* AppDelegate.swift */; };
 		61EDF430249B0F73008A47FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF42F249B0F73008A47FA /* ContentView.swift */; };
 		61EDF432249B0F75008A47FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61EDF431249B0F75008A47FA /* Assets.xcassets */; };
@@ -22,8 +24,10 @@
 
 /* Begin PBXFileReference section */
 		619D5AD0249C48940013BC22 /* ProbeOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOutputView.swift; sourceTree = "<group>"; };
-		619D5AD2249C70A60013BC22 /* URL+Incrementing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Incrementing.swift"; sourceTree = "<group>"; };
+		619D5AD2249C70A60013BC22 /* URL+Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Paths.swift"; sourceTree = "<group>"; };
 		619D5AD4249C72140013BC22 /* FFmpegOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFmpegOperation.swift; sourceTree = "<group>"; };
+		619D5AD6249C8C3A0013BC22 /* test.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = test.mov; sourceTree = "<group>"; };
+		619D5AD8249C8D4C0013BC22 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		61EDF42A249B0F73008A47FA /* everyframe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = everyframe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61EDF42D249B0F73008A47FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61EDF42F249B0F73008A47FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,13 +72,14 @@
 			isa = PBXGroup;
 			children = (
 				61EDF42D249B0F73008A47FA /* AppDelegate.swift */,
-				61EDF42F249B0F73008A47FA /* ContentView.swift */,
-				619D5AD4249C72140013BC22 /* FFmpegOperation.swift */,
-				619D5AD2249C70A60013BC22 /* URL+Incrementing.swift */,
 				61EDF442249B397B008A47FA /* FileView.swift */,
 				619D5AD0249C48940013BC22 /* ProbeOutputView.swift */,
+				61EDF42F249B0F73008A47FA /* ContentView.swift */,
 				61EDF444249B39F0008A47FA /* FFprobe.swift */,
+				619D5AD4249C72140013BC22 /* FFmpegOperation.swift */,
 				61EDF440249B1810008A47FA /* Shell.swift */,
+				619D5AD2249C70A60013BC22 /* URL+Paths.swift */,
+				619D5AD8249C8D4C0013BC22 /* PreviewData.swift */,
 				61EDF431249B0F75008A47FA /* Assets.xcassets */,
 				61EDF436249B0F75008A47FA /* Main.storyboard */,
 				61EDF439249B0F75008A47FA /* Info.plist */,
@@ -87,6 +92,7 @@
 		61EDF433249B0F75008A47FA /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				619D5AD6249C8C3A0013BC22 /* test.mov */,
 				61EDF434249B0F75008A47FA /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -152,6 +158,7 @@
 			files = (
 				61EDF438249B0F75008A47FA /* Main.storyboard in Resources */,
 				61EDF435249B0F75008A47FA /* Preview Assets.xcassets in Resources */,
+				619D5AD7249C8C3A0013BC22 /* test.mov in Resources */,
 				61EDF432249B0F75008A47FA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,8 +173,9 @@
 				61EDF445249B39F0008A47FA /* FFprobe.swift in Sources */,
 				61EDF441249B1810008A47FA /* Shell.swift in Sources */,
 				61EDF443249B397B008A47FA /* FileView.swift in Sources */,
-				619D5AD3249C70A60013BC22 /* URL+Incrementing.swift in Sources */,
+				619D5AD3249C70A60013BC22 /* URL+Paths.swift in Sources */,
 				61EDF430249B0F73008A47FA /* ContentView.swift in Sources */,
+				619D5AD9249C8D4C0013BC22 /* PreviewData.swift in Sources */,
 				619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */,
 				61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */,
 				619D5AD5249C72140013BC22 /* FFmpegOperation.swift in Sources */,

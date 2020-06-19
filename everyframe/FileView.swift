@@ -8,48 +8,62 @@
 
 import SwiftUI
 
+struct FileViewModel {
+    let icon: NSImage
+    let title: String
+    let subtitle: String
+    
+    init(inputFile: URL) {
+        self.icon = NSWorkspace.shared.icon(forFile: inputFile.path)
+        self.title = inputFile.lastPathComponent
+        self.subtitle = FileViewModel.makeFormatText(file: inputFile)
+            ?? inputFile.deletingLastPathComponent().path
+    }
+    
+    init(outputFile: URL) {
+        self.icon = NSWorkspace.shared.icon(forFileType: outputFile.pathExtension)
+        self.title = outputFile.lastPathComponent
+        self.subtitle = outputFile.deletingLastPathComponent().path
+    }
+    
+    private static func makeFormatText(file: URL) -> String? {
+        guard let uti = try? NSWorkspace.shared.type(ofFile: file.path),
+            let format = UTTypeCopyDescription(uti as CFString)
+            else { return nil }
+        
+        return format.takeRetainedValue() as String
+    }
+}
+
 struct FileView: View {
     
-    let file: URL
-    
-    init(file: URL) {
-        self.file = file
-    }
+    let model: FileViewModel
     
     var body: some View {
         HStack {
-            icon
+            Image(nsImage: model.icon)
             
             VStack(alignment: .leading) {
-                Text(file.lastPathComponent)
+                Text(model.title)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .font(.headline)
                 
-                format
+                Text(model.subtitle)
                     .lineLimit(1)
                     .truncationMode(.middle)
             }
         }
     }
     
-    var icon: Image {
-        let icon = NSWorkspace.shared.icon(forFile: file.path)
-        
-        return Image(nsImage: icon)
-    }
-    
-    var format: Text? {
-        guard let uti = try? NSWorkspace.shared.type(ofFile: file.path),
-            let format = UTTypeCopyDescription(uti as CFString)
-            else { return nil }
-        return Text(format.takeRetainedValue() as String)
-    }
-    
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        FileView(file: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov"))
+        Group {
+            FileView(model: FileViewModel(inputFile: PreviewData.input))
+            
+            FileView(model: FileViewModel(outputFile: PreviewData.output))
+        }
     }
 }

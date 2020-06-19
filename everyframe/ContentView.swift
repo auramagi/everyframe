@@ -37,7 +37,7 @@ struct ContentView: View, DropDelegate {
                         Section() {
                             Button(action: openFile) {
                                 HStack {
-                                    FileView(file: operation.input)
+                                    FileView(model: FileViewModel(inputFile: operation.input))
                                     
                                     Spacer()
                                     
@@ -60,7 +60,21 @@ struct ContentView: View, DropDelegate {
                         
                         Spacer().frame(minWidth: 200)
                         
-                        FileView(file: operation.output)
+                        Section {
+                            HStack {
+                                FileView(model: FileViewModel(outputFile: operation.output))
+                                    .opacity(operation.output.fileExists() ? 1.0 : 0.5)
+                                
+                                Spacer()
+                                
+                                Button(
+                                    action: showOutputInFinder,
+                                    label: { Image(nsImage: NSImage(named: NSImage.revealFreestandingTemplateName)!) }
+                                )
+                                .buttonStyle(BorderlessButtonStyle())
+                            }
+                        }
+                        .padding(.horizontal)
                     }
                     .padding(.vertical)
                 )
@@ -132,6 +146,15 @@ struct ContentView: View, DropDelegate {
             self.operation = FFmpegOperation(input: url)
         }
     }
+    
+    func showOutputInFinder() {
+        guard let operation = operation else { return }
+        if operation.output.fileExists() {
+            NSWorkspace.shared.selectFile(operation.output.path, inFileViewerRootedAtPath: "")
+        } else {
+            NSWorkspace.shared.selectFile(operation.output.deletingLastPathComponent().path, inFileViewerRootedAtPath: "")
+        }
+    }
 
 }
 
@@ -140,7 +163,7 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView(window: .init())
             
-            ContentView(window: .init(), operation: FFmpegOperation(input: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov")))
+            ContentView(window: .init(), operation: FFmpegOperation(input: PreviewData.input))
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  URL+Incrementing.swift
+//  URL+Paths.swift
 //  everyframe
 //
 //  Created by Mikhail Apurin on 2020/06/19.
@@ -20,5 +20,10 @@ extension URL {
             index += 1
         }
         self = result
+    }
+    
+    func fileExists(fileManager: FileManager = .default) -> Bool {
+        guard isFileURL else { return false }
+        return fileManager.fileExists(atPath: path)
     }
 }
