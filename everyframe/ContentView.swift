@@ -205,7 +205,8 @@ struct ContentView: View, DropDelegate {
     }
     
     func run() {
-        
+        guard let operation = operation else { return }
+        FFmpeg(operation: operation).run()
     }
 
 }

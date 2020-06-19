@@ -8,15 +8,14 @@
 
 import Foundation
 
-func shell(path: String, command: String) throws -> Data? {
+func executeShell(path: String, command: String, pipe: Pipe, environment: [String: String] = [:], terminationHandler: @escaping (Process?) -> Void = { _ in }) {
     let shellPath = ProcessInfo().environment["SHELL"]
-    let task = Process()
-    task.launchPath = shellPath!
-    task.arguments = ["-c", "\(path) \(command)"]
-
-    let pipe = Pipe()
-    task.standardOutput = pipe
-    task.launch()
-
-    return try pipe.fileHandleForReading.readToEnd()
+    let process = Process()
+    process.environment = ProcessInfo().environment
+        .merging(environment, uniquingKeysWith: { (old, new) in new })
+    process.launchPath = shellPath!
+    process.arguments = ["-c", "\(path) \(command)"]
+    process.terminationHandler = terminationHandler
+    process.standardOutput = pipe
+    process.launch()
 }

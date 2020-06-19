@@ -12,14 +12,16 @@ struct FFprobe {
     let file: URL
     
     private let path: String = "/usr/local/bin/ffprobe"
-    private var command: String { "\(file.path) -hide_banner -show_format -show_error -show_streams -v quiet -print_format json" }
+    private var command: String { "$INPUT -hide_banner -show_format -show_error -show_streams -v quiet -print_format json" }
     
     struct Output {
         let string: String
     }
     
     func run() -> Output? {
-        guard let data = try? shell(path: path, command: command),
+        let pipe = Pipe()
+        executeShell(path: path, command: command, pipe: pipe, environment: ["INPUT": file.path])
+        guard let data = try? pipe.fileHandleForReading.readToEnd(),
             let string = String(data: data, encoding: .utf8)
         else { return nil }
         

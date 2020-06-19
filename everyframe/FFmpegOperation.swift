@@ -12,7 +12,7 @@ struct FFmpegOperation {
     let input: URL
     var output: URL
     
-    private(set) var options: String = ""
+    var options: String { "-i $INPUT $OUTPUT" }
     var optionsOverride: String?
     
     init(input: URL) {
