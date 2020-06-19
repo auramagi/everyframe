@@ -47,10 +47,9 @@ struct ContentView: View, DropDelegate {
                                     )
                                         .buttonStyle(LinkButtonStyle())
                                         .popover(
-                                            isPresented:  $showingProbeOutput,
+                                            isPresented: $showingProbeOutput,
                                             content: { self.probeOutput }
                                     )
-                                    
                                 }
                             }
                         .buttonStyle(PlainButtonStyle())
@@ -67,7 +66,7 @@ struct ContentView: View, DropDelegate {
                 return AnyView(
                     VStack {
                         Button(
-                            action: { DispatchQueue.main.async(execute: self.openFile) },
+                            action: openFile,
                             label: { Text("Choose input") }
                         )
                     }
@@ -128,8 +127,9 @@ struct ContentView: View, DropDelegate {
         
         
         panel.beginSheetModal(for: window) { response in
-            if response == .OK { self.openedFile = panel.url }
-            panel.close()
+            guard response == .OK else { return }
+            
+            self.openedFile = panel.url
         }
     }
     
@@ -141,7 +141,6 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(window: .init())
             
             ContentView(window: .init(), openedFile: URL(fileURLWithPath: "/Users/m_apurin/Downloads/inlinemark.mov"))
-            
         }
     }
 }
