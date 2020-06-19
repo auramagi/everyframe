@@ -61,18 +61,21 @@ struct ContentView: View, DropDelegate {
                         Spacer().frame(minWidth: 200)
                         
                         Section {
-                            HStack {
-                                FileView(model: FileViewModel(outputFile: operation.output))
-                                    .opacity(operation.output.fileExists() ? 1.0 : 0.5)
-                                
-                                Spacer()
-                                
-                                Button(
-                                    action: showOutputInFinder,
-                                    label: { Image(nsImage: NSImage(named: NSImage.revealFreestandingTemplateName)!) }
-                                )
-                                .buttonStyle(BorderlessButtonStyle())
+                            Button(action: changeOutput) {
+                                HStack {
+                                    FileView(model: FileViewModel(outputFile: operation.output))
+                                        .opacity(operation.output.fileExists() ? 1.0 : 0.5)
+                                    
+                                    Spacer()
+                                    
+                                    Button(
+                                        action: showOutputInFinder,
+                                        label: { Image(nsImage: NSImage(named: NSImage.revealFreestandingTemplateName)!) }
+                                    )
+                                        .buttonStyle(BorderlessButtonStyle())
+                                }
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         .padding(.horizontal)
                     }
@@ -144,6 +147,19 @@ struct ContentView: View, DropDelegate {
         panel.beginSheetModal(for: window) { response in
             guard response == .OK, let url = panel.url else { return }
             self.operation = FFmpegOperation(input: url)
+        }
+    }
+    
+    func changeOutput() {
+        let panel = NSSavePanel()
+        panel.title = "Choose output file"
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = operation?.output.lastPathComponent ?? ""
+        panel.directoryURL = operation?.output.deletingLastPathComponent()
+        
+        panel.beginSheetModal(for: window) { response in
+            guard response == .OK, let url = panel.url else { return }
+            self.operation?.output = url
         }
     }
     
