@@ -28,8 +28,8 @@ struct ProbeOutputView: View {
 
                 Button(action: open, label: { Text("Open") })
             }
-
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 8)
         }
         .frame(width: outlineSize.width)
     }
