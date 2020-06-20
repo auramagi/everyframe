@@ -97,7 +97,7 @@ struct ContentView: View, DropDelegate {
                             HStack {
                                 Button(
                                     action: { },
-                                    label: { Text("Options…") }
+                                    label: { Text("Preferences…") }
                                 )
                                 
                                 Spacer()

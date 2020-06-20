@@ -1,5 +1,5 @@
 //
-//  URL+Paths.swift
+//  URL+paths.swift
 //  everyframe
 //
 //  Created by Mikhail Apurin on 2020/06/19.
