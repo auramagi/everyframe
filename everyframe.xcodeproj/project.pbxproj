@@ -29,6 +29,8 @@
 		61EDF441249B1810008A47FA /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF440249B1810008A47FA /* Shell.swift */; };
 		61EDF443249B397B008A47FA /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF442249B397B008A47FA /* FileView.swift */; };
 		61EDF445249B39F0008A47FA /* FFprobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EDF444249B39F0008A47FA /* FFprobe.swift */; };
+		A3F1A400249E8AB9005C230E /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F1A3FF249E8AB9005C230E /* AppError.swift */; };
+		A3F1A402249E937F005C230E /* Result+errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F1A401249E937F005C230E /* Result+errors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +59,8 @@
 		61EDF440249B1810008A47FA /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
 		61EDF442249B397B008A47FA /* FileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
 		61EDF444249B39F0008A47FA /* FFprobe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFprobe.swift; sourceTree = "<group>"; };
+		A3F1A3FF249E8AB9005C230E /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		A3F1A401249E937F005C230E /* Result+errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+errors.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 		61065EBB249E02DD003519ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A3F1A401249E937F005C230E /* Result+errors.swift */,
 				61065E8F249D0585003519ED /* String+case.swift */,
 				619D5AD2249C70A60013BC22 /* URL+paths.swift */,
 			);
@@ -96,6 +101,7 @@
 		61065EBC249E0317003519ED /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A3F1A3FF249E8AB9005C230E /* AppError.swift */,
 				61065EB6249DFE59003519ED /* Environment.swift */,
 				61C8ADAB249CC5ED00DF7DBE /* FFmpeg.swift */,
 				619D5AD4249C72140013BC22 /* FFmpegOperation.swift */,
@@ -223,6 +229,7 @@
 			files = (
 				61EDF445249B39F0008A47FA /* FFprobe.swift in Sources */,
 				61EDF441249B1810008A47FA /* Shell.swift in Sources */,
+				A3F1A400249E8AB9005C230E /* AppError.swift in Sources */,
 				61C8ADAC249CC5ED00DF7DBE /* FFmpeg.swift in Sources */,
 				61065EB7249DFE59003519ED /* Environment.swift in Sources */,
 				61065EB5249DF74B003519ED /* OperationView.swift in Sources */,
@@ -237,6 +244,7 @@
 				610E83DB249E07BA00FCCDFD /* ActivityIndicatorView.swift in Sources */,
 				619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */,
 				61065EB9249E0054003519ED /* FilePicker.swift in Sources */,
+				A3F1A402249E937F005C230E /* Result+errors.swift in Sources */,
 				61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */,
 				619D5AD5249C72140013BC22 /* FFmpegOperation.swift in Sources */,
 			);

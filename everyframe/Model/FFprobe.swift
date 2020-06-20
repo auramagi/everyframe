@@ -9,18 +9,48 @@
 import Foundation
 
 struct FFprobe {
+    
+    typealias Output = Any
+    
     let file: URL
     
     private let path: String = "/usr/local/bin/ffprobe"
     private var command: String { "$INPUT -hide_banner -show_format -show_error -show_streams -v quiet -print_format json" }
     
-    func run() -> Any? {
+    enum ProbeError: Error {
+        case decodingError
+        case errorResponse(FFprobeError)
+        
+        func toAppError() -> AppError {
+            if case let .errorResponse(error) = self {
+                return AppError(string: "\(error.code): \(error.string)", underlying: self)
+            } else {
+                return AppError(string: "ffprobe failed", underlying: self)
+            }
+        }
+    }
+    
+    private struct ErrorResponse: Decodable {
+        let error: FFprobeError
+    }
+    
+    struct FFprobeError: Decodable {
+        let code: Int
+        let string: String
+    }
+    
+    func run() -> Result<Any, ProbeError> {
         let pipe = Pipe()
         executeShell(path: path, command: command, pipe: pipe, environment: ["INPUT": file.path])
-        guard let data = try? pipe.fileHandleForReading.readToEnd(),
-            let object = try? JSONSerialization.jsonObject(with: data, options: [])
-            else { return nil }
+        let data = pipe.fileHandleForReading.readDataToEndOfFile() // readToEnd() crashes with "Symbol not found"
         
-        return object
+        if let response = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+            return .failure(.errorResponse(response.error))
+        } else if let object = try? JSONSerialization.jsonObject(with: data, options: []) {
+            return .success(object)
+        } else {
+            return .failure(.decodingError)
+        }
     }
+    
 }

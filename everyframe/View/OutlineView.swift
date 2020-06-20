@@ -16,7 +16,7 @@ import SwiftUI
     let isLeaf: Bool
     let childObjects: [(key: String, value: Any)]
     
-    init(object: Any, key: String? = nil) {
+    init(object: FFprobe.Output, key: String? = nil) {
         self.object = object
         self.key = key
         if let text = object as? String {
@@ -56,7 +56,7 @@ import SwiftUI
 struct OutlineView: NSViewRepresentable {
     let contents: [JSONObjectTreeNode]
     
-    init(object: Any, flattenTopLevelContainer: Bool = false) {
+    init(object: FFprobe.Output, flattenTopLevelContainer: Bool = false) {
         let object = JSONObjectTreeNode(object: object)
         if flattenTopLevelContainer, !object.isLeaf {
             self.contents = object.children

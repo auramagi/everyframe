@@ -11,13 +11,17 @@ import SwiftUI
 struct ProbeOutputView: View {
     
     var file: URL
-    var probeOutput: Any?
+    var output: FFprobe.Output
     
     private let outlineSize = CGSize(width: 420, height: 400)
     
     var body: some View {
         VStack(spacing: 0) {
-            probeValues
+            OutlineView(
+                object: output,
+                flattenTopLevelContainer: true
+            )
+                .frame(width: outlineSize.width, height: outlineSize.height)
 
             Divider()
 
@@ -34,19 +38,6 @@ struct ProbeOutputView: View {
         .frame(width: outlineSize.width)
     }
     
-    var probeValues: some View {
-        if let probeOutput = probeOutput {
-            return AnyView(makeProbeView(output: probeOutput))
-        } else {
-            return AnyView(Text("ffprobe failed").padding(24))
-        }
-    }
-    
-    func makeProbeView(output: Any) -> some View {
-        OutlineView(object: output, flattenTopLevelContainer: true)
-            .frame(width: outlineSize.width, height: outlineSize.height)
-    }
-    
     func showInFinder() {
         NSWorkspace.shared.selectFile(file.path, inFileViewerRootedAtPath: "")
     }
@@ -59,6 +50,6 @@ struct ProbeOutputView: View {
 
 struct ProbeOutputView_Previews: PreviewProvider {
     static var previews: some View {
-        ProbeOutputView(file: PreviewData.input)
+        ProbeOutputView(file: PreviewData.input, output: PreviewData.probeOutput)
     }
 }

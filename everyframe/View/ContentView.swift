@@ -12,6 +12,7 @@ struct ContentView: View, DropDelegate {
     
     @State var operationViewModel: OperationViewModel?
     @State var dropState: DropState = .uninitiated
+    @State var alert: ErrorAlert? = nil
     
     @Environment(\.window) var window: NSWindow?
     
@@ -21,10 +22,21 @@ struct ContentView: View, DropDelegate {
         case forbidden
     }
     
+    struct ErrorAlert: Identifiable {
+        let id = UUID()
+        let error: AppError
+    }
+    
     var body : some View {
         fileView
             .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
             .onDrop(of: [(kUTTypeFileURL as String)], delegate: self)
+            .alert(item: $alert) {
+                Alert(
+                    title: Text($0.error.string),
+                    dismissButton: .default(Text("OK"))
+                )
+        }
     }
     
     var fileView: some View {
@@ -92,7 +104,14 @@ struct ContentView: View, DropDelegate {
     }
     
     func setInput(_ url: URL) {
-        operationViewModel = .init(operation: .init(input: url))
+        FFmpegOperation.make(input: url).unwrap(
+            onFailure: handleError,
+            onSuccess: { self.operationViewModel = OperationViewModel(operation: $0) }
+        )
+    }
+    
+    func handleError(_ error: AppError) {
+        alert = ErrorAlert(error: error)
     }
     
 }

@@ -15,6 +15,8 @@ class OperationViewModel: ObservableObject {
     @Published var optionsOverride: String = ""
     @Published var executionState: ExecutionState = .uninitiated
     
+    var onError: ((AppError) -> Void)?
+    
     private var subscriptions: Set<AnyCancellable> = []
     
     enum ExecutionState {
@@ -44,7 +46,10 @@ class OperationViewModel: ObservableObject {
     }
     
     func setInput(_ input: URL) {
-        operation = FFmpegOperation(input: input)
+        FFmpegOperation.make(input: input).unwrap(
+            onFailure: onError,
+            onSuccess: { self.operation = $0 }
+        )
     }
     
     func setOutput(_ output: URL) {
@@ -55,10 +60,6 @@ class OperationViewModel: ObservableObject {
         executionState.isRunning
             ? false
             : operation.output.fileExists()
-    }
-    
-    var probeOutput: Any? {
-        FFprobe(file: operation.input).run()
     }
     
     func showOutputInFinder() {
@@ -192,7 +193,7 @@ struct OperationView: View {
     }
     
     func makeProbeOutputPopover() -> some View {
-        ProbeOutputView(file: viewModel.operation.input, probeOutput: viewModel.probeOutput)
+        ProbeOutputView(file: viewModel.operation.input, output: viewModel.operation.inputProbe)
     }
     
     func makeProgressPopover() -> some View {
@@ -221,6 +222,6 @@ struct OperationView: View {
 
 struct OperationView_Previews: PreviewProvider {
     static var previews: some View {
-        OperationView(viewModel: OperationViewModel(operation: FFmpegOperation(input: PreviewData.input)))
+        OperationView(viewModel: OperationViewModel(operation: PreviewData.operation))
     }
 }
