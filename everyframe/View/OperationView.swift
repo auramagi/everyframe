@@ -7,11 +7,29 @@
 //
 
 import SwiftUI
+import Combine
 
 class OperationViewModel: ObservableObject {
     
     @Published var operation: FFmpegOperation
     @Published var optionsOverride: String = ""
+    @Published var executionState: ExecutionState = .uninitiated
+    
+    private var subscriptions: Set<AnyCancellable> = []
+    
+    enum ExecutionState {
+        case uninitiated
+        case started
+        case running(progress: [String: String])
+        
+        var isRunning: Bool {
+            if case .uninitiated = self {
+                return false
+            } else {
+                return true
+            }
+        }
+    }
     
     init(operation: FFmpegOperation) {
         self._operation = .init(initialValue: operation)
@@ -26,7 +44,9 @@ class OperationViewModel: ObservableObject {
     }
     
     var outputFileExists: Bool {
-        operation.output.fileExists()
+        executionState.isRunning
+            ? false
+            : operation.output.fileExists()
     }
     
     var probeOutput: Any? {
@@ -42,7 +62,15 @@ class OperationViewModel: ObservableObject {
     }
     
     func run() {
-        FFmpeg(operation: operation).run()
+        executionState = .started
+        FFmpeg(operation: operation)
+            .run()
+            .receive(on: RunLoop.main)
+            .sink(
+                receiveCompletion: { _ in self.executionState = .uninitiated },
+                receiveValue: { self.executionState = .running(progress: $0) }
+            ).store(in: &subscriptions)
+        
     }
 }
 
@@ -124,7 +152,7 @@ struct OperationView: View {
                     
                     Button(
                         action: viewModel.run,
-                        label: { Text("Run") }
+                        label: { Text(viewModel.executionState.isRunning ? "Running…" : "Run") }
                     )
                 }
                 .padding(.top, 8)

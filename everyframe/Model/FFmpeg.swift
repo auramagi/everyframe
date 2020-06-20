@@ -15,7 +15,7 @@ struct FFmpeg {
     private let path: String = "/usr/local/bin/ffmpeg"
     private var command: String {
         let options = operation.optionsOverride ?? operation.options
-        return "-y -progress - -v level+info -nostats -hide_banner -ss 20 -i \(options)"
+        return "-y -progress - -v level+info -nostats -hide_banner \(options)"
     }
     
     enum ExecutionStatus {
