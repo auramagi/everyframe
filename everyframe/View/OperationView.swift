@@ -78,8 +78,14 @@ class OperationViewModel: ObservableObject {
                 receiveCompletion: { _ in self.executionState = .uninitiated },
                 receiveValue: { self.executionState = .running(progress: $0) }
             ).store(in: &subscriptions)
-        
     }
+    
+    func processOptionsOverride(_ editing: Bool) {
+        operation.optionsOverride = optionsOverride.isEmpty
+            ? nil
+            : optionsOverride
+    }
+    
 }
 
 struct OperationView: View {
@@ -119,7 +125,7 @@ struct OperationView: View {
                 TextField(
                     viewModel.operation.options,
                     text: $viewModel.optionsOverride,
-                    onEditingChanged: { _ in },
+                    onEditingChanged: viewModel.processOptionsOverride,
                     onCommit: { }
                 )
                     .textFieldStyle(RoundedBorderTextFieldStyle())
