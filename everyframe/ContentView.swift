@@ -10,12 +10,10 @@ import SwiftUI
 
 struct ContentView: View, DropDelegate {
     
-    let window: NSWindow
-    
-    @State var operation: FFmpegOperation? = .init(input: PreviewData.input)
+    @State var operationViewModel: OperationViewModel?
     @State var dropState: DropState = .uninitiated
-    @State var showingProbeOutput: Bool = false
-    @State var optionsOverride: String = ""
+    
+    @Environment(\.window) var window: NSWindow?
     
     enum DropState {
         case uninitiated
@@ -32,86 +30,9 @@ struct ContentView: View, DropDelegate {
     var fileView: some View {
         switch dropState {
         case .uninitiated:
-            if let operation = operation {
+            if let operationViewModel = operationViewModel {
                 return AnyView(
-                    Form {
-                        Section() {
-                            Button(action: openFile) {
-                                HStack {
-                                    FileView(model: FileViewModel(inputFile: operation.input))
-                                    
-                                    Spacer()
-                                    
-                                    Button(
-                                        action: { self.showingProbeOutput = true },
-                                        label: { Text("􀅴").font(.system(size: 18)) }
-                                    )
-                                        .buttonStyle(LinkButtonStyle())
-                                        .popover(
-                                            isPresented: $showingProbeOutput,
-                                            content: { self.probeOutput }
-                                    )
-                                }
-                            }
-                        .buttonStyle(PlainButtonStyle())
-                        }
-                        .padding(.horizontal)
-                        
-                        Divider()
-                        
-                        Section {
-                            Spacer()
-                            
-                            TextField(
-                                operation.options,
-                                text: $optionsOverride,
-                                onEditingChanged: { _ in },
-                                onCommit: { }
-                            )
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            
-                            Spacer()
-                        }
-                        .padding(.horizontal)
-                        
-                        Section {
-                            Button(action: changeOutput) {
-                                HStack {
-                                    FileView(model: FileViewModel(outputFile: operation.output))
-                                        .opacity(operation.output.fileExists() ? 1.0 : 0.5)
-                                    
-                                    Spacer()
-                                    
-                                    Button(
-                                        action: showOutputInFinder,
-                                        label: { Image(nsImage: NSImage(named: NSImage.revealFreestandingTemplateName)!) }
-                                    )
-                                        .buttonStyle(BorderlessButtonStyle())
-                                }
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        .padding(.horizontal)
-                        
-                        Section {
-                            HStack {
-                                Button(
-                                    action: { },
-                                    label: { Text("Preferences…") }
-                                )
-                                
-                                Spacer()
-                                
-                                Button(
-                                    action: run,
-                                    label: { Text("Run") }
-                                )
-                            }
-                            .padding(.top, 8)
-                            .padding(.horizontal)
-                        }
-                    }
-                    .padding(.vertical)
+                    OperationView(viewModel: operationViewModel)
                 )
             } else {
                 return AnyView(
@@ -128,15 +49,10 @@ struct ContentView: View, DropDelegate {
             return AnyView(Text("Drop here"))
             
         case .forbidden:
-            return AnyView(Text("Don't drop here"))
-            
+            return AnyView(Text("Can not drop here"))
         }
     }
     
-    var probeOutput: ProbeOutputView? {
-        guard let file = operation?.input else { return nil }
-        return ProbeOutputView(file: file, probeOutput: FFprobe(file: file).run())
-    }
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
         if info.hasItemsConforming(to: [kUTTypeFileURL as String]) {
@@ -162,7 +78,7 @@ struct ContentView: View, DropDelegate {
         itemProvider.loadItem(forTypeIdentifier: (kUTTypeFileURL as String), options: nil) {item, error in
             guard let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
             DispatchQueue.main.async {
-                self.operation = FFmpegOperation(input: url)
+                self.setInput(url)
             }
         }
         
@@ -170,53 +86,21 @@ struct ContentView: View, DropDelegate {
     }
     
     func openFile() {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        panel.title = "Choose input file"
-        
-        panel.beginSheetModal(for: window) { response in
-            guard response == .OK, let url = panel.url else { return }
-            self.operation = FFmpegOperation(input: url)
+        FilePicker.chooseInput(window: window!) { url in
+            self.setInput(url)
         }
     }
     
-    func changeOutput() {
-        let panel = NSSavePanel()
-        panel.title = "Choose output file"
-        panel.canCreateDirectories = true
-        panel.nameFieldStringValue = operation?.output.lastPathComponent ?? ""
-        panel.directoryURL = operation?.output.deletingLastPathComponent()
-        
-        panel.beginSheetModal(for: window) { response in
-            guard response == .OK, let url = panel.url else { return }
-            self.operation?.output = url
-        }
+    func setInput(_ url: URL) {
+        operationViewModel = .init(operation: .init(input: url))
     }
     
-    func showOutputInFinder() {
-        guard let operation = operation else { return }
-        if operation.output.fileExists() {
-            NSWorkspace.shared.selectFile(operation.output.path, inFileViewerRootedAtPath: "")
-        } else {
-            NSWorkspace.shared.selectFile(operation.output.deletingLastPathComponent().path, inFileViewerRootedAtPath: "")
-        }
-    }
-    
-    func run() {
-        guard let operation = operation else { return }
-        FFmpeg(operation: operation).run()
-    }
-
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView(window: .init())
-            
-            ContentView(window: .init(), operation: FFmpegOperation(input: PreviewData.input))
+            ContentView()
         }
     }
 }

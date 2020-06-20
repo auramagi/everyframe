@@ -25,7 +25,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setFrameAutosaveName("Main Window")
         
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView(window: window)
+        let contentView = ContentView()
+            .environment(\.window, window)
         
         window.contentView = NSHostingView(rootView: contentView)
         window.makeKeyAndOrderFront(nil)
@@ -34,7 +35,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
 
 }
 

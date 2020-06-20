@@ -11,7 +11,7 @@ import SwiftUI
 struct ProbeOutputView: View {
     
     var file: URL
-    var probeOutput: [String: Any]?
+    var probeOutput: Any?
     
     private let outlineSize = CGSize(width: 420, height: 400)
     
