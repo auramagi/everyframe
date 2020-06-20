@@ -22,6 +22,10 @@ struct ProgressView: View {
                 makeRow(title: "Speed", content: Text(speed))
                 
                 makeRow(title: "Bitrate", content: Text(bitrate))
+                
+                Divider()
+                
+                makeRow(title: "Frame", content: Text(frame))
             }
         }
         .padding()
@@ -71,6 +75,11 @@ struct ProgressView: View {
     var bitrate: String {
         progress["bitrate"]  ?? "0 kbits/s"
     }
+    
+    var frame: String {
+        progress["frame"] ?? "0"
+    }
+    
 }
 
 struct ProgressView_Previews: PreviewProvider {

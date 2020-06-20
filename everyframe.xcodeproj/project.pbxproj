@@ -78,8 +78,8 @@
 				61EDF442249B397B008A47FA /* FileView.swift */,
 				61065EB4249DF74B003519ED /* OperationView.swift */,
 				61065EB2249DC459003519ED /* OutlineView.swift */,
-				610E83DC249E0B2600FCCDFD /* ProgressView.swift */,
 				619D5AD0249C48940013BC22 /* ProbeOutputView.swift */,
+				610E83DC249E0B2600FCCDFD /* ProgressView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
