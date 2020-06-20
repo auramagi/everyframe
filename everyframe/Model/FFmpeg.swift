@@ -50,7 +50,7 @@ struct FFmpeg {
         
         pipe.fileHandleForReading.readabilityHandler = updateHandler
         
-        executeShell(
+        let process = executeShell(
             path: path,
             command: command,
             pipe: pipe,
@@ -58,7 +58,10 @@ struct FFmpeg {
             terminationHandler: terminationHandler
         )
         
-        return subject.eraseToAnyPublisher()
+        return subject
+            .handleEvents(receiveCancel: {
+                process.terminate()
+            }).eraseToAnyPublisher()
     }
     
 }
