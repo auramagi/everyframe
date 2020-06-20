@@ -29,6 +29,14 @@ class OperationViewModel: ObservableObject {
                 return true
             }
         }
+        
+        var progress: [String: String] {
+            if case let .running(progress) = self {
+                return progress
+            } else {
+                return [:]
+            }
+        }
     }
     
     init(operation: FFmpegOperation) {
@@ -78,6 +86,7 @@ struct OperationView: View {
     
     @ObservedObject var viewModel: OperationViewModel
     @State var showingProbeOutput: Bool = false
+    @State var showingProgress: Bool = true
     
     @Environment(\.window) var window: NSWindow?
     
@@ -95,10 +104,7 @@ struct OperationView: View {
                             label: { Text("􀅴").font(.system(size: 18)) }
                         )
                             .buttonStyle(LinkButtonStyle())
-                            .popover(
-                                isPresented: $showingProbeOutput,
-                                content: { self.probeOutput }
-                        )
+                            .popover(isPresented: $showingProbeOutput, content: makeProbeOutputPopover)
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -150,10 +156,7 @@ struct OperationView: View {
                     
                     Spacer()
                     
-                    Button(
-                        action: viewModel.run,
-                        label: { Text(viewModel.executionState.isRunning ? "Running…" : "Run") }
-                    )
+                    runButton
                 }
                 .padding(.top, 8)
                 .padding(.horizontal)
@@ -162,11 +165,38 @@ struct OperationView: View {
         .padding(.vertical)
     }
     
-    var probeOutput: ProbeOutputView? {
-        ProbeOutputView(
-            file: viewModel.operation.input,
-            probeOutput: viewModel.probeOutput
-        )
+    var runButton: some View {
+        if viewModel.executionState.isRunning {
+            return AnyView(
+                Button(
+                    action: { self.showingProgress = true },
+                    label: { ActivityIndicatorView(controlSize: .small) }
+                )
+                    .buttonStyle(BorderlessButtonStyle())
+                    .popover(isPresented: $showingProgress, content: makeProgressPopover)
+            )
+        } else {
+            return AnyView(
+                Button(
+                    action: run,
+                    label: { Text("Run") }
+                )
+            )
+        }
+    }
+    
+    func makeProbeOutputPopover() -> some View {
+        ProbeOutputView(file: viewModel.operation.input, probeOutput: viewModel.probeOutput)
+    }
+    
+    func makeProgressPopover() -> some View {
+        ProgressView(progress: self.viewModel.executionState.progress)
+            .frame(minWidth: 180)
+    }
+    
+    func run() {
+        viewModel.run()
+        showingProgress = true
     }
     
     func openFile() {

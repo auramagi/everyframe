@@ -12,6 +12,9 @@
 		61065EB5249DF74B003519ED /* OperationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61065EB4249DF74B003519ED /* OperationView.swift */; };
 		61065EB7249DFE59003519ED /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61065EB6249DFE59003519ED /* Environment.swift */; };
 		61065EB9249E0054003519ED /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61065EB8249E0054003519ED /* FilePicker.swift */; };
+		610E83DB249E07BA00FCCDFD /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83DA249E07BA00FCCDFD /* ActivityIndicatorView.swift */; };
+		610E83DD249E0B2600FCCDFD /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83DC249E0B2600FCCDFD /* ProgressView.swift */; };
+		610E83DF249E12E600FCCDFD /* ProgressScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83DE249E12E600FCCDFD /* ProgressScanner.swift */; };
 		619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD0249C48940013BC22 /* ProbeOutputView.swift */; };
 		619D5AD3249C70A60013BC22 /* URL+paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD2249C70A60013BC22 /* URL+paths.swift */; };
 		619D5AD5249C72140013BC22 /* FFmpegOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD4249C72140013BC22 /* FFmpegOperation.swift */; };
@@ -34,6 +37,9 @@
 		61065EB4249DF74B003519ED /* OperationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationView.swift; sourceTree = "<group>"; };
 		61065EB6249DFE59003519ED /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		61065EB8249E0054003519ED /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
+		610E83DA249E07BA00FCCDFD /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		610E83DC249E0B2600FCCDFD /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		610E83DE249E12E600FCCDFD /* ProgressScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScanner.swift; sourceTree = "<group>"; };
 		619D5AD0249C48940013BC22 /* ProbeOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOutputView.swift; sourceTree = "<group>"; };
 		619D5AD2249C70A60013BC22 /* URL+paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+paths.swift"; sourceTree = "<group>"; };
 		619D5AD4249C72140013BC22 /* FFmpegOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFmpegOperation.swift; sourceTree = "<group>"; };
@@ -67,10 +73,12 @@
 		61065EBA249E02C0003519ED /* View */ = {
 			isa = PBXGroup;
 			children = (
+				610E83DA249E07BA00FCCDFD /* ActivityIndicatorView.swift */,
 				61EDF42F249B0F73008A47FA /* ContentView.swift */,
 				61EDF442249B397B008A47FA /* FileView.swift */,
 				61065EB4249DF74B003519ED /* OperationView.swift */,
 				61065EB2249DC459003519ED /* OutlineView.swift */,
+				610E83DC249E0B2600FCCDFD /* ProgressView.swift */,
 				619D5AD0249C48940013BC22 /* ProbeOutputView.swift */,
 			);
 			path = View;
@@ -94,6 +102,7 @@
 				61EDF444249B39F0008A47FA /* FFprobe.swift */,
 				61065EB8249E0054003519ED /* FilePicker.swift */,
 				619D5AD8249C8D4C0013BC22 /* PreviewData.swift */,
+				610E83DE249E12E600FCCDFD /* ProgressScanner.swift */,
 				61EDF440249B1810008A47FA /* Shell.swift */,
 			);
 			path = Model;
@@ -217,12 +226,15 @@
 				61C8ADAC249CC5ED00DF7DBE /* FFmpeg.swift in Sources */,
 				61065EB7249DFE59003519ED /* Environment.swift in Sources */,
 				61065EB5249DF74B003519ED /* OperationView.swift in Sources */,
+				610E83DF249E12E600FCCDFD /* ProgressScanner.swift in Sources */,
 				61065EB3249DC459003519ED /* OutlineView.swift in Sources */,
+				610E83DD249E0B2600FCCDFD /* ProgressView.swift in Sources */,
 				61065E90249D0585003519ED /* String+case.swift in Sources */,
 				61EDF443249B397B008A47FA /* FileView.swift in Sources */,
 				619D5AD3249C70A60013BC22 /* URL+paths.swift in Sources */,
 				61EDF430249B0F73008A47FA /* ContentView.swift in Sources */,
 				619D5AD9249C8D4C0013BC22 /* PreviewData.swift in Sources */,
+				610E83DB249E07BA00FCCDFD /* ActivityIndicatorView.swift in Sources */,
 				619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */,
 				61065EB9249E0054003519ED /* FilePicker.swift in Sources */,
 				61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */,

@@ -31,9 +31,16 @@ struct FFmpeg {
             let data = file.availableData
             guard let output = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
                 else { return }
-            print("*** NEW DATA ***")
-            print(output)
-            subject.send(["test": "123"])
+            
+            var progress: [String: String] = [:]
+            output.enumerateLines { line, _ in
+                guard line.first != "[",
+                    let (key, value) = ProgressScanner.scanSingleLine(string: line)
+                    else { return }
+                
+                progress[key] = value
+            }
+            subject.send(progress)
         }
         
         let terminationHandler = { (process: Process?) in

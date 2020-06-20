@@ -47,19 +47,6 @@ struct ProbeOutputView: View {
             .frame(width: outlineSize.width, height: outlineSize.height)
     }
     
-    func makeRow(title: String, content: Text?) -> some View {
-        HStack {
-            Text(title)
-                .font(.caption)
-                .foregroundColor(Color(NSColor.secondaryLabelColor))
-            
-            Spacer()
-            
-            content?
-                .multilineTextAlignment(.trailing)
-        }
-    }
-    
     func showInFinder() {
         NSWorkspace.shared.selectFile(file.path, inFileViewerRootedAtPath: "")
     }

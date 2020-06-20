@@ -11,7 +11,6 @@ import Foundation
 extension String {
     func transformingSnakeCaseToHumanReadable() -> String {
         let result = replacingOccurrences(of: "_", with: " ").capitalized
-        print(result)
         return result
     }
 }
