@@ -64,6 +64,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61065EBA249E02C0003519ED /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61EDF42F249B0F73008A47FA /* ContentView.swift */,
+				61EDF442249B397B008A47FA /* FileView.swift */,
+				61065EB4249DF74B003519ED /* OperationView.swift */,
+				61065EB2249DC459003519ED /* OutlineView.swift */,
+				619D5AD0249C48940013BC22 /* ProbeOutputView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		61065EBB249E02DD003519ED /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				61065E8F249D0585003519ED /* String+case.swift */,
+				619D5AD2249C70A60013BC22 /* URL+paths.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		61065EBC249E0317003519ED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				61065EB6249DFE59003519ED /* Environment.swift */,
+				61C8ADAB249CC5ED00DF7DBE /* FFmpeg.swift */,
+				619D5AD4249C72140013BC22 /* FFmpegOperation.swift */,
+				61EDF444249B39F0008A47FA /* FFprobe.swift */,
+				61065EB8249E0054003519ED /* FilePicker.swift */,
+				619D5AD8249C8D4C0013BC22 /* PreviewData.swift */,
+				61EDF440249B1810008A47FA /* Shell.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		61EDF421249B0F73008A47FA = {
 			isa = PBXGroup;
 			children = (
@@ -84,20 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				61EDF42D249B0F73008A47FA /* AppDelegate.swift */,
-				61EDF442249B397B008A47FA /* FileView.swift */,
-				619D5AD0249C48940013BC22 /* ProbeOutputView.swift */,
-				61EDF42F249B0F73008A47FA /* ContentView.swift */,
-				61065EB4249DF74B003519ED /* OperationView.swift */,
-				61065EB8249E0054003519ED /* FilePicker.swift */,
-				61065EB2249DC459003519ED /* OutlineView.swift */,
-				61EDF444249B39F0008A47FA /* FFprobe.swift */,
-				61C8ADAB249CC5ED00DF7DBE /* FFmpeg.swift */,
-				619D5AD4249C72140013BC22 /* FFmpegOperation.swift */,
-				61EDF440249B1810008A47FA /* Shell.swift */,
-				61065EB6249DFE59003519ED /* Environment.swift */,
-				61065E8F249D0585003519ED /* String+case.swift */,
-				619D5AD2249C70A60013BC22 /* URL+paths.swift */,
-				619D5AD8249C8D4C0013BC22 /* PreviewData.swift */,
+				61065EBA249E02C0003519ED /* View */,
+				61065EBC249E0317003519ED /* Model */,
+				61065EBB249E02DD003519ED /* Extensions */,
 				61EDF431249B0F75008A47FA /* Assets.xcassets */,
 				61EDF436249B0F75008A47FA /* Main.storyboard */,
 				61EDF439249B0F75008A47FA /* Info.plist */,

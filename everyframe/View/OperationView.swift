@@ -48,7 +48,6 @@ class OperationViewModel: ObservableObject {
 
 struct OperationView: View {
     
-    
     @ObservedObject var viewModel: OperationViewModel
     @State var showingProbeOutput: Bool = false
     
