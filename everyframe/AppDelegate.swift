@@ -35,5 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         subprocesses.values.forEach { $0.terminate() }
     }
 
+    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+        return true
+    }
+    
 }
-
