@@ -12,3 +12,8 @@ struct AppError: Error {
     let string: String
     let underlying: Error?
 }
+
+struct IdentifiableAppError: Identifiable {
+    let id = UUID()
+    let error: AppError
+}

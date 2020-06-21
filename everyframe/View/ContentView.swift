@@ -8,11 +8,33 @@
 
 import SwiftUI
 
+class ContentViewModel: ObservableObject {
+    
+    @Published var operationViewModel: OperationViewModel?
+    @Published var error: IdentifiableAppError?
+    
+    
+    func setInput(_ url: URL?) {
+        if let url = url {
+            FFmpegOperation.make(input: url).unwrap(
+                onFailure: handleError,
+                onSuccess: { self.operationViewModel = OperationViewModel(operation: $0) }
+            )
+        } else {
+            operationViewModel = nil
+        }
+    }
+    
+    func handleError(_ error: AppError) {
+        self.error = IdentifiableAppError(error: error)
+    }
+    
+}
+
 struct ContentView: View, DropDelegate {
     
-    @State var operationViewModel: OperationViewModel?
+    @ObservedObject var model: ContentViewModel
     @State var dropState: DropState = .uninitiated
-    @State var alert: ErrorAlert? = nil
     
     @Environment(\.window) var window: NSWindow?
     
@@ -22,16 +44,12 @@ struct ContentView: View, DropDelegate {
         case forbidden
     }
     
-    struct ErrorAlert: Identifiable {
-        let id = UUID()
-        let error: AppError
-    }
     
     var body : some View {
         fileView
             .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
             .onDrop(of: [(kUTTypeFileURL as String)], delegate: self)
-            .alert(item: $alert) {
+            .alert(item: $model.error) {
                 Alert(
                     title: Text($0.error.string),
                     dismissButton: .default(Text("OK"))
@@ -42,7 +60,7 @@ struct ContentView: View, DropDelegate {
     var fileView: some View {
         switch dropState {
         case .uninitiated:
-            if let operationViewModel = operationViewModel {
+            if let operationViewModel = model.operationViewModel {
                 return AnyView(
                     OperationView(viewModel: operationViewModel)
                 )
@@ -90,7 +108,7 @@ struct ContentView: View, DropDelegate {
         itemProvider.loadItem(forTypeIdentifier: (kUTTypeFileURL as String), options: nil) {item, error in
             guard let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
             DispatchQueue.main.async {
-                self.setInput(url)
+                self.model.setInput(url)
             }
         }
         
@@ -99,19 +117,8 @@ struct ContentView: View, DropDelegate {
     
     func openFile() {
         FilePicker.chooseInput(window: window!) { url in
-            self.setInput(url)
+            self.model.setInput(url)
         }
-    }
-    
-    func setInput(_ url: URL) {
-        FFmpegOperation.make(input: url).unwrap(
-            onFailure: handleError,
-            onSuccess: { self.operationViewModel = OperationViewModel(operation: $0) }
-        )
-    }
-    
-    func handleError(_ error: AppError) {
-        alert = ErrorAlert(error: error)
     }
     
 }
@@ -119,7 +126,7 @@ struct ContentView: View, DropDelegate {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView()
+            ContentView(model: .init())
         }
     }
 }
