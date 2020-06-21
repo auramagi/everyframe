@@ -49,12 +49,7 @@ struct ContentView: View, DropDelegate {
         fileView
             .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
             .onDrop(of: [(kUTTypeFileURL as String)], delegate: self)
-            .alert(item: $model.error) {
-                Alert(
-                    title: Text($0.error.string),
-                    dismissButton: .default(Text("OK"))
-                )
-        }
+            .alert(item: $model.error) { $0.error.makeAlert() }
     }
     
     var fileView: some View {

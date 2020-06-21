@@ -21,11 +21,11 @@ struct FFprobe {
         case decodingError
         case errorResponse(FFprobeError)
         
-        func toAppError() -> AppError {
+        var information: String {
             if case let .errorResponse(error) = self {
-                return AppError(string: "\(error.code): \(error.string)", underlying: self)
+                return "\(error.string) (Code \(error.code))"
             } else {
-                return AppError(string: "ffprobe failed", underlying: self)
+                return "ffprobe failed"
             }
         }
     }

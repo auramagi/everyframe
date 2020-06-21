@@ -7,10 +7,28 @@
 //
 
 import Foundation
+import AppKit
+import SwiftUI
 
 struct AppError: Error {
-    let string: String
+    let message: String
+    let information: String
     let underlying: Error?
+    
+    func makeNSAlert() -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = message
+        alert.informativeText = information
+        return alert
+    }
+    
+    func makeAlert() -> Alert {
+        Alert(
+            title: Text(message),
+            message: Text(information),
+            dismissButton: .default(Text("OK"))
+        )
+    }
 }
 
 struct IdentifiableAppError: Identifiable {

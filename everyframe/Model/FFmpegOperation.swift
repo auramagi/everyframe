@@ -26,7 +26,7 @@ struct FFmpegOperation {
         FFprobe(file: input)
             .run()
             .map { FFmpegOperation(input: input, inputProbe: $0) }
-            .mapError { $0.toAppError() }
+            .mapError { AppError(message: "Can not open \(input.lastPathComponent)", information: $0.information, underlying: $0) }
     }
     
     static func outputURL(forInput url: URL, pathExtension: String) -> URL {

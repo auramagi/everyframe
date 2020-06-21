@@ -61,9 +61,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func presentErrorAlert(error: AppError) {
-        let alert = NSAlert()
-        alert.messageText = error.string
-        alert.runModal()
+        error.makeNSAlert()
+            .runModal()
     }
     
 }
