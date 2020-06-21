@@ -48,7 +48,7 @@
 		619D5AD6249C8C3A0013BC22 /* test.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = test.mov; sourceTree = "<group>"; };
 		619D5AD8249C8D4C0013BC22 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		61C8ADAB249CC5ED00DF7DBE /* FFmpeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFmpeg.swift; sourceTree = "<group>"; };
-		61EDF42A249B0F73008A47FA /* everyframe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = everyframe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61EDF42A249B0F73008A47FA /* Every Frame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Every Frame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61EDF42D249B0F73008A47FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61EDF42F249B0F73008A47FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		61EDF431249B0F75008A47FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		61EDF42B249B0F73008A47FA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				61EDF42A249B0F73008A47FA /* everyframe.app */,
+				61EDF42A249B0F73008A47FA /* Every Frame.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,7 +172,7 @@
 			);
 			name = everyframe;
 			productName = everyframe;
-			productReference = 61EDF42A249B0F73008A47FA /* everyframe.app */;
+			productReference = 61EDF42A249B0F73008A47FA /* Every Frame.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -395,7 +395,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.everyframe;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Every Frame";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -418,7 +418,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.everyframe;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Every Frame";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
