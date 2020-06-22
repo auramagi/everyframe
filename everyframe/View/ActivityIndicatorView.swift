@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ActivityIndicatorView: NSViewRepresentable {
     
-    let controlSize: NSControl.ControlSize
+    @Environment(\.controlSize) var controlSize: ControlSize
     
     func makeNSView(context: Context) -> NSProgressIndicator {
         let nsView = NSProgressIndicator()
         nsView.style = .spinning
-        nsView.controlSize = controlSize
+        nsView.controlSize = controlSize.nsControlControlSize
         nsView.startAnimation(nil)
         return nsView
     }
@@ -27,8 +27,10 @@ struct ActivityIndicatorView: NSViewRepresentable {
 }
 
 
+
 struct ActivityIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityIndicatorView(controlSize: .mini)
+        ActivityIndicatorView()
+            .environment(\.controlSize, .mini)
     }
 }

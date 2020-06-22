@@ -48,6 +48,7 @@ struct ContentView: View, DropDelegate {
     var body : some View {
         fileView
             .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
+            .environment(\.windowTitle, model.operationViewModel?.operation.input.lastPathComponent ?? "New operation")
             .onDrop(of: [(kUTTypeFileURL as String)], delegate: self)
             .alert(item: $model.error) { $0.error.makeAlert() }
     }

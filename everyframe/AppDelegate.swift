@@ -21,6 +21,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         subprocesses.values.forEach { $0.terminate() }
     }
+    
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if flag {
+            return false
+        } else {
+            openFile(nil)
+            return true
+        }
+    }
 
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
         openFile(URL(fileURLWithPath: filename))
@@ -48,6 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
+        window.titleVisibility = .hidden
         
         let controller = NSWindowController(window: window)
         controller.showWindow(nil)
@@ -63,6 +73,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func presentErrorAlert(error: AppError) {
         error.makeNSAlert()
             .runModal()
+    }
+    
+    @objc func newDocument(_ sender: Any?) {
+        openFile(nil)
     }
     
 }
