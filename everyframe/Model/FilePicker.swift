@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AppKit
+import Cocoa
 
 enum FilePicker {
     static func chooseInput(window: NSWindow, didChoose: @escaping (URL) -> Void) {

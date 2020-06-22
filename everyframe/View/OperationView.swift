@@ -177,7 +177,7 @@ struct OperationView: View {
             return AnyView(
                 Button(
                     action: { self.showingProgress = true },
-                    label: { ActivityIndicatorView(controlSize: .small) }
+                    label: { ActivityIndicatorView().environment(\.controlSize, .small) }
                 )
                     .buttonStyle(BorderlessButtonStyle())
                     .popover(isPresented: $showingProgress, content: makeProgressPopover)

@@ -12,6 +12,10 @@ struct NSWindowEnvironmentKey: EnvironmentKey {
     static var defaultValue: NSWindow? = nil
 }
 
+struct WindowTitleEnvironmentKey: EnvironmentKey {
+    static var defaultValue: String = ""
+}
+
 extension EnvironmentValues {
     var window: NSWindow? {
         get {
@@ -20,6 +24,18 @@ extension EnvironmentValues {
         
         set {
             self[NSWindowEnvironmentKey.self] = newValue
+            newValue?.title = self[WindowTitleEnvironmentKey.self]
+        }
+    }
+    
+    var windowTitle: String {
+        get {
+            self[WindowTitleEnvironmentKey.self]
+        }
+        
+        set {
+            self[WindowTitleEnvironmentKey.self] = newValue
+            self[NSWindowEnvironmentKey.self]?.title = newValue
         }
     }
 }
