@@ -8,11 +8,57 @@
 
 import SwiftUI
 
-class ContentViewModel: ObservableObject {
+class ContentViewModel: ObservableObject, DropDelegate {
     
-    @Published var operationViewModel: OperationViewModel?
+    @Published var didSetInput: Bool = false
     @Published var error: IdentifiableAppError?
     
+    
+    private var dropState: DropState = .uninitiated
+    
+    enum DropState {
+        case uninitiated
+        case possible
+        case forbidden
+    }
+    
+    private var operationViewModel: OperationViewModel? {
+        didSet {
+            didSetInput = operationViewModel != nil
+        }
+    }
+    
+    var windowTitle: String {
+        operationViewModel?.operation.input.lastPathComponent ?? "New operation"
+    }
+    
+    var isPerformingDrop: Bool {
+        dropState != .uninitiated
+    }
+    
+    var hasInput: Bool {
+        operationViewModel != nil
+    }
+    
+    var dropPrompt: String {
+        dropState == .forbidden
+            ? "Drop here"
+            : "Can not drop here"
+    }
+    
+    var inputPickerPrompt: String {
+        "Choose input"
+    }
+    
+    var operationView: OperationView? {
+        operationViewModel.map { OperationView(viewModel: $0) }
+    }
+    
+    func openFile(window: NSWindow?) {
+        FilePicker.chooseInput(window: window!) { url in
+            self.setInput(url)
+        }
+    }
     
     func setInput(_ url: URL?) {
         if let url = url {
@@ -28,57 +74,6 @@ class ContentViewModel: ObservableObject {
     func handleError(_ error: AppError) {
         self.error = IdentifiableAppError(error: error)
     }
-    
-}
-
-struct ContentView: View, DropDelegate {
-    
-    @ObservedObject var model: ContentViewModel
-    @State var dropState: DropState = .uninitiated
-    
-    @Environment(\.window) var window: NSWindow?
-    
-    enum DropState {
-        case uninitiated
-        case possible
-        case forbidden
-    }
-    
-    
-    var body : some View {
-        fileView
-            .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
-            .environment(\.windowTitle, model.operationViewModel?.operation.input.lastPathComponent ?? "New operation")
-            .onDrop(of: [(kUTTypeFileURL as String)], delegate: self)
-            .alert(item: $model.error) { $0.error.makeAlert() }
-    }
-    
-    var fileView: some View {
-        switch dropState {
-        case .uninitiated:
-            if let operationViewModel = model.operationViewModel {
-                return AnyView(
-                    OperationView(viewModel: operationViewModel)
-                )
-            } else {
-                return AnyView(
-                    VStack {
-                        Button(
-                            action: openFile,
-                            label: { Text("Choose input") }
-                        )
-                    }
-                )
-            }
-            
-        case .possible:
-            return AnyView(Text("Drop here"))
-            
-        case .forbidden:
-            return AnyView(Text("Can not drop here"))
-        }
-    }
-    
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
         if info.hasItemsConforming(to: [kUTTypeFileURL as String]) {
@@ -104,16 +99,39 @@ struct ContentView: View, DropDelegate {
         itemProvider.loadItem(forTypeIdentifier: (kUTTypeFileURL as String), options: nil) {item, error in
             guard let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
             DispatchQueue.main.async {
-                self.model.setInput(url)
+                self.setInput(url)
             }
         }
         
         return true
     }
     
-    func openFile() {
-        FilePicker.chooseInput(window: window!) { url in
-            self.model.setInput(url)
+}
+
+struct ContentView: View {
+    
+    @ObservedObject var model: ContentViewModel
+    
+    @Environment(\.window) var window: NSWindow?
+        
+    var body : some View {
+        makeView(model: model, window: window)
+            .frame(minWidth: 320, idealWidth: 640, maxWidth: .infinity, minHeight: 200, alignment: .center)
+            .environment(\.windowTitle, model.windowTitle)
+            .onDrop(of: [(kUTTypeFileURL as String)], delegate: model)
+            .alert(item: $model.error) { $0.error.makeAlert() }
+    }
+    
+    @ViewBuilder func makeView(model: ContentViewModel, window: NSWindow?) -> some View {
+        if model.isPerformingDrop {
+            Text(model.dropPrompt)
+        } else if model.hasInput  {
+            model.operationView
+        } else {
+            Button(
+                action: { model.openFile(window: window) },
+                label: { Text(self.model.inputPickerPrompt) }
+            )
         }
     }
     

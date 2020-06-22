@@ -106,12 +106,11 @@ struct OperationView: View {
                         
                         Spacer()
                         
-                        Button(
-                            action: { self.showingProbeOutput = true },
-                            label: { Text("􀅴").font(.system(size: 18)) }
-                        )
-                            .buttonStyle(LinkButtonStyle())
-                            .popover(isPresented: $showingProbeOutput, content: makeProbeOutputPopover)
+                        PopoverToggleButton(
+                            condition: $showingProbeOutput,
+                            label: { Text("􀅴").font(.system(size: 18)) },
+                            content: makeProbeOutputPopover
+                        ).buttonStyle(LinkButtonStyle())
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -163,7 +162,7 @@ struct OperationView: View {
                     
                     Spacer()
                     
-                    runButton
+                    makeRunButton()
                 }
                 .padding(.top, 8)
                 .padding(.horizontal)
@@ -171,23 +170,18 @@ struct OperationView: View {
         }
         .padding(.vertical)
     }
-    
-    var runButton: some View {
+        
+    @ViewBuilder func makeRunButton() -> some View {
         if viewModel.executionState.isRunning {
-            return AnyView(
-                Button(
-                    action: { self.showingProgress = true },
-                    label: { ActivityIndicatorView().environment(\.controlSize, .small) }
-                )
-                    .buttonStyle(BorderlessButtonStyle())
-                    .popover(isPresented: $showingProgress, content: makeProgressPopover)
+            PopoverToggleButton(
+                condition: $showingProgress,
+                label: { ActivityIndicatorView().environment(\.controlSize, .small) },
+                content: makeProgressPopover
             )
         } else {
-            return AnyView(
-                Button(
-                    action: run,
-                    label: { Text("Run") }
-                )
+            Button(
+                action: run,
+                label: { Text("Run") }
             )
         }
     }
@@ -216,6 +210,25 @@ struct OperationView: View {
         FilePicker.chooseOutput(window: window!, prompt: viewModel.operation.output) { url in
             self.viewModel.setOutput(url)
         }
+    }
+    
+}
+
+struct PopoverToggleButton<Label: View, Content: View>: View {
+    
+    @Binding var condition: Bool
+    private var labelBuilder: () -> Label
+    private var contentBuilder: () -> Content
+    
+    init(condition: Binding<Bool>, @ViewBuilder label: @escaping () -> Label, @ViewBuilder content: @escaping () -> Content) {
+        self._condition = condition
+        self.labelBuilder = label
+        self.contentBuilder = content
+    }
+    
+    var body: some View {
+        Button(action: { self.condition.toggle() }, label: labelBuilder)
+            .popover(isPresented: $condition, content: contentBuilder)
     }
     
 }
