@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private let router: AppRouter = .init()
+    @IBOutlet var router: AppRouter!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let application = aNotification.object as? NSApplication
