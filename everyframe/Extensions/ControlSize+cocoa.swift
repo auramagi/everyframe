@@ -1,5 +1,5 @@
 //
-//  ControlSize+AppKit.swift
+//  ControlSize+cocoa.swift
 //  everyframe
 //
 //  Created by Mikhail Apurin on 2020/06/22.
@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import AppKit
+import Cocoa
 
 extension ControlSize {
     var nsControlControlSize: NSControl.ControlSize {

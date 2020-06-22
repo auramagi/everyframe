@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AppKit
+import Cocoa
 import SwiftUI
 
 struct AppError: Error {

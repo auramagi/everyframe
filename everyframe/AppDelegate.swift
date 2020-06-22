@@ -7,15 +7,16 @@
 //
 
 import Cocoa
-import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private var cascadingPoint: NSPoint?
+    private let router: AppRouter = .init()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        openFile(nil)
+        let application = aNotification.object as? NSApplication
+        application?.nextResponder = router
+        router.openFile(nil)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -26,57 +27,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if flag {
             return false
         } else {
-            openFile(nil)
+            router.openFile(nil)
             return true
         }
     }
 
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
-        openFile(URL(fileURLWithPath: filename))
+        let input = URL(fileURLWithPath: filename)
+        router.openFile(input)
         return true
-    }
-    
-    func openFile(_ url: URL?) {
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-            backing: .buffered,
-            defer: false
-        )
-        
-        let model = ContentViewModel()
-        model.setInput(url)
-        if let error = model.error {
-            // handle here and prevent new window being shown
-            presentErrorAlert(error: error.error)
-            return
-        }
-        
-        let contentView = ContentView(model: model)
-            .environment(\.window, window)
-        
-        window.setFrameAutosaveName("Main Window")
-        window.contentView = NSHostingView(rootView: contentView)
-        window.titleVisibility = .hidden
-        
-        let controller = NSWindowController(window: window)
-        controller.showWindow(nil)
-        
-        if let lastSpawnPoint = cascadingPoint {
-            self.cascadingPoint = controller.window?.cascadeTopLeft(from: lastSpawnPoint)
-        } else {
-            controller.window?.center()
-            cascadingPoint = controller.window?.cascadeTopLeft(from: .zero)
-        }
-    }
-    
-    func presentErrorAlert(error: AppError) {
-        error.makeNSAlert()
-            .runModal()
-    }
-    
-    @objc func newDocument(_ sender: Any?) {
-        openFile(nil)
     }
     
 }

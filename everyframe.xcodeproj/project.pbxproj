@@ -15,7 +15,8 @@
 		610E83DB249E07BA00FCCDFD /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83DA249E07BA00FCCDFD /* ActivityIndicatorView.swift */; };
 		610E83DD249E0B2600FCCDFD /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83DC249E0B2600FCCDFD /* ProgressView.swift */; };
 		610E83DF249E12E600FCCDFD /* ProgressScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83DE249E12E600FCCDFD /* ProgressScanner.swift */; };
-		610E83E324A0444C00FCCDFD /* ControlSize+AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83E224A0444C00FCCDFD /* ControlSize+AppKit.swift */; };
+		610E83E324A0444C00FCCDFD /* ControlSize+cocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83E224A0444C00FCCDFD /* ControlSize+cocoa.swift */; };
+		610E83E524A049D900FCCDFD /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E83E424A049D900FCCDFD /* AppRouter.swift */; };
 		619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD0249C48940013BC22 /* ProbeOutputView.swift */; };
 		619D5AD3249C70A60013BC22 /* URL+paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD2249C70A60013BC22 /* URL+paths.swift */; };
 		619D5AD5249C72140013BC22 /* FFmpegOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619D5AD4249C72140013BC22 /* FFmpegOperation.swift */; };
@@ -43,7 +44,8 @@
 		610E83DA249E07BA00FCCDFD /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		610E83DC249E0B2600FCCDFD /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		610E83DE249E12E600FCCDFD /* ProgressScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScanner.swift; sourceTree = "<group>"; };
-		610E83E224A0444C00FCCDFD /* ControlSize+AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ControlSize+AppKit.swift"; sourceTree = "<group>"; };
+		610E83E224A0444C00FCCDFD /* ControlSize+cocoa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ControlSize+cocoa.swift"; sourceTree = "<group>"; };
+		610E83E424A049D900FCCDFD /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		619D5AD0249C48940013BC22 /* ProbeOutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeOutputView.swift; sourceTree = "<group>"; };
 		619D5AD2249C70A60013BC22 /* URL+paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+paths.swift"; sourceTree = "<group>"; };
 		619D5AD4249C72140013BC22 /* FFmpegOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFmpegOperation.swift; sourceTree = "<group>"; };
@@ -96,7 +98,7 @@
 				A3F1A401249E937F005C230E /* Result+errors.swift */,
 				61065E8F249D0585003519ED /* String+case.swift */,
 				619D5AD2249C70A60013BC22 /* URL+paths.swift */,
-				610E83E224A0444C00FCCDFD /* ControlSize+AppKit.swift */,
+				610E83E224A0444C00FCCDFD /* ControlSize+cocoa.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				61EDF42D249B0F73008A47FA /* AppDelegate.swift */,
+				610E83E424A049D900FCCDFD /* AppRouter.swift */,
 				61065EBA249E02C0003519ED /* View */,
 				61065EBC249E0317003519ED /* Model */,
 				61065EBB249E02DD003519ED /* Extensions */,
@@ -241,12 +244,13 @@
 				610E83DD249E0B2600FCCDFD /* ProgressView.swift in Sources */,
 				61065E90249D0585003519ED /* String+case.swift in Sources */,
 				61EDF443249B397B008A47FA /* FileView.swift in Sources */,
+				610E83E524A049D900FCCDFD /* AppRouter.swift in Sources */,
 				619D5AD3249C70A60013BC22 /* URL+paths.swift in Sources */,
 				61EDF430249B0F73008A47FA /* ContentView.swift in Sources */,
 				619D5AD9249C8D4C0013BC22 /* PreviewData.swift in Sources */,
 				610E83DB249E07BA00FCCDFD /* ActivityIndicatorView.swift in Sources */,
 				619D5AD1249C48940013BC22 /* ProbeOutputView.swift in Sources */,
-				610E83E324A0444C00FCCDFD /* ControlSize+AppKit.swift in Sources */,
+				610E83E324A0444C00FCCDFD /* ControlSize+cocoa.swift in Sources */,
 				61065EB9249E0054003519ED /* FilePicker.swift in Sources */,
 				A3F1A402249E937F005C230E /* Result+errors.swift in Sources */,
 				61EDF42E249B0F73008A47FA /* AppDelegate.swift in Sources */,
